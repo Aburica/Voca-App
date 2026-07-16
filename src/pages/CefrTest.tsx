@@ -8,7 +8,6 @@ import {
   Headphones, BookOpen, PenLine, MessagesSquare,
 } from 'lucide-react';
 import { speak } from '../lib/tts';
-import { startRecognition, recognitionSupported } from '../lib/speech';
 import type { CefrLevel } from '../types';
 
 const SECTION_META = [
