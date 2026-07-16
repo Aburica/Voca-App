@@ -4,10 +4,10 @@ import {
 import type {
   AppState, LangCode, View, User, SubscriptionTier, BillingCycle, CefrLevel, Theme,
 } from './types';
-import { defaultState, loadState, saveState, newUser, clearState, emptyProgress } from './lib/storage';
+import { defaultState, loadState, saveState, newUser, clearState, emptyProgress } from './storage';
 import { translate } from './i18n';
 import { ALL_LANGS, AD_INTERVAL_SECONDS, FREE_MIC_LIMIT, levelFromHours } from './constants';
-import { stopSpeaking } from './lib/tts';
+import { stopSpeaking } from './TTS';
 
 type Action =
   | { type: 'LOGIN'; user: User }
