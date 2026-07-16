@@ -8,7 +8,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Lessons } from './pages/Lessons';
 import { Flashcards } from './pages/Flashcards';
 import { WordsInContext } from './pages/WordsInContext';
-import { Chat } from './pages/Chat';
+import Chat from './pages/Chat';
 import { CefrTest } from './pages/CefrTest';
 import { Settings } from './pages/Settings';
 import { Subscriptions } from './pages/Subscriptions';
