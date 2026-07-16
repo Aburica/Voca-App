@@ -7,7 +7,6 @@ import {
   ArrowRight, ArrowLeft, Check, Volume2, Mic, ClipboardCheck,
   Headphones, BookOpen, PenLine, MessagesSquare,
 } from 'lucide-react';
-import { speak } from '../lib/tts';
 import type { CefrLevel } from '../types';
 
 const SECTION_META = [
@@ -27,7 +26,7 @@ export function CefrTest() {
   const [speakingText, setSpeakingText] = useState('');
   const [listening, setListening] = useState(false);
   const [result, setResult] = useState<{ score: number; level: CefrLevel } | null>(null);
-  const recRef = useRef<ReturnType<typeof startRecognition> | null>(null);
+  // const recRef = useRef<ReturnType<typeof startRecognition> | null>(null);
 
   const CEFR_TEST_QUESTIONS = useMemo(
     () => buildCefrTest(state.targetLang, state.interfaceLang),
@@ -151,22 +150,7 @@ export function CefrTest() {
   const playListening = () => {
     if (!q.tts) return;
     setListening(true);
-    speak(q.tts, state.targetLang, () => setListening(false));
-  };
-
-  const startSpeak = () => {
-    if (!recognitionSupported()) return;
-    recRef.current?.stop();
-    const handle = startRecognition(
-      state.targetLang,
-      (txt, isFinal) => {
-        setSpeakingText(txt);
-        if (isFinal) recordAnswer(txt);
-      },
-      () => {},
-      () => {},
-    );
-    recRef.current = handle;
+   // speak(q.tts, state.targetLang, () => setListening(false));
   };
 
   const canProceed = q.options ? !!selected : q.section === 'writing' ? writing.trim().length > 0 : speakingText.trim().length > 0;
@@ -210,17 +194,17 @@ export function CefrTest() {
             <Volume2 size={22} className={listening ? 'animate-pulse' : ''} />
             {listening ? t('misc.listening') : t('cefr.play')}
           </button>
-        )}
+      //  
 
-        {q.section === 'reading' && q.passage && (
-          <div className="mt-4 rounded-2xl bg-ink-50 p-4 dark:bg-ink-900/60">
-            <p className="text-xs font-bold uppercase tracking-wide text-ink-400 dark:text-ink-500">{t('cefr.passage')}</p>
-            <p className="mt-2 leading-relaxed text-ink-800 dark:text-ink-200">{q.passage}</p>
-            <button onClick={() => speak(q.passage!, state.targetLang)} className="mt-2 flex items-center gap-1 text-sm font-bold text-sky-600 hover:text-sky-700 dark:text-sky-400">
-              <Volume2 size={16} /> {t('cefr.replay')}
-            </button>
-          </div>
-        )}
+      //  {q.section === 'reading' && q.passage && (
+        //  <div className="mt-4 rounded-2xl bg-ink-50 p-4 dark:bg-ink-900/60">
+          //  <p className="text-xs font-bold uppercase tracking-wide text-ink-400 dark:text-ink-500">{t('cefr.passage')}</p>
+          //  <p className="mt-2 leading-relaxed text-ink-800 dark:text-ink-200">{q.passage}</p>
+          // <button onClick={() => speak(q.passage!, state.targetLang)} className="mt-2 flex items-center gap-1 text-sm font-bold text-sky-600 hover:text-sky-700 dark:text-sky-400">
+            //  <Volume2 size={16} /> {t('cefr.replay')}
+          //  </button>
+        //  </div>
+      //  
 
         {q.options && (
           <div className="mt-5 space-y-3">
@@ -229,7 +213,7 @@ export function CefrTest() {
               return (
                 <button
                   key={opt}
-                  onClick={() => chooseOption(opt)}
+                  onClick={() => { /* chooseOption(opt); */ }}
                   className={`flex w-full items-center justify-between rounded-2xl border-2 px-5 py-4 text-start font-bold text-ink-900 transition dark:text-ink-100 ${
                     isSel ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/40' : 'border-ink-100 bg-white hover:border-sky-300 dark:border-ink-700 dark:bg-ink-800 dark:hover:border-sky-600'
                   }`}
@@ -246,7 +230,7 @@ export function CefrTest() {
           <div className="mt-4">
             <textarea
               value={writing}
-              onChange={(e) => { setWriting(e.target.value); recordAnswer(e.target.value); }}
+              onChange={(e) => { setWriting(e.target.value); /* recordAnswer(e.target.value); */ }}
               rows={5}
               className="input resize-none"
               placeholder={t('cefr.typeAnswer', { lang: lang.name })}
@@ -259,9 +243,9 @@ export function CefrTest() {
 
         {q.section === 'speaking' && (
           <div className="mt-4 flex flex-col items-center gap-3">
-            <button
-              onClick={startSpeak}
-              className="flex h-20 w-20 items-center justify-center rounded-full bg-coral-500 text-white shadow-pop hover:bg-coral-600 transition"
+           // <button 
+           // onClick={startSpeak}
+           //   className="flex h-20 w-20 items-center justify-center rounded-full bg-coral-500 text-white shadow-pop hover:bg-coral-600 transition"
             >
               <Mic size={32} />
             </button>
@@ -272,10 +256,10 @@ export function CefrTest() {
               </div>
             ) : (
               <p className="text-sm text-ink-400 dark:text-ink-500">{t('cefr.speakAnswer', { lang: lang.name })}</p>
-            )}
-            {!recognitionSupported() && (
-              <p className="text-xs text-coral-500">{t('mic.unsupported')}</p>
-            )}
+          // 
+          // !recognitionSupported && 
+            //  <p className="text-xs text-coral-500">{t('mic.unsupported')}</p>
+          //
           </div>
         )}
       </div>
