@@ -90,9 +90,8 @@ export function CefrTest() {
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {SECTION_META.map((s) => (
                 <div key={s.key} className="rounded-2xl bg-ink-50 p-4 text-center dark:bg-ink-900/60">
-                  <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-xl ${
-                    s.color === 'sky' ? 'bg-sky-100 text-sky-600' : s.color === 'voca' ? 'bg-voca-100 text-voca-700' : s.color === 'forest' ? 'bg-forest-100 text-forest-700' : 'bg-coral-100 text-coral-600'
-                  }`}>
+                  <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-xl ${s.color === 'sky' ? 'bg-sky-100 text-sky-600' : s.color === 'voca' ? 'bg-voca-100 text-voca-700' : s.color === 'forest' ? 'bg-forest-100 text-forest-700' : 'bg-coral-100 text-coral-600'
+                    }`}>
                     <s.icon size={20} />
                   </div>
                   <p className="mt-2 text-sm font-bold text-ink-700 dark:text-ink-200">{t(s.key)}</p>
@@ -124,9 +123,8 @@ export function CefrTest() {
           </p>
           <div className="mt-4 flex items-center justify-center gap-1.5">
             {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).map((lv) => (
-              <span key={lv} className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold ${
-                lv === result.level ? 'bg-voca-500 text-ink-900 shadow-pop' : ['A1','A2','B1','B2','C1','C2'].indexOf(lv) < ['A1','A2','B1','B2','C1','C2'].indexOf(result.level) ? 'bg-forest-400 text-white' : 'bg-ink-100 text-ink-400 dark:bg-ink-900/60 dark:text-ink-500'
-              }`}>{lv}</span>
+              <span key={lv} className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold ${lv === result.level ? 'bg-voca-500 text-ink-900 shadow-pop' : ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].indexOf(lv) < ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].indexOf(result.level) ? 'bg-forest-400 text-white' : 'bg-ink-100 text-ink-400 dark:bg-ink-900/60 dark:text-ink-500'
+                }`}>{lv}</span>
             ))}
           </div>
           <p className="mt-4 text-sm text-ink-500 dark:text-ink-400">{t('cefr.saved')}</p>
@@ -150,22 +148,21 @@ export function CefrTest() {
   const playListening = () => {
     if (!q.tts) return;
     setListening(true);
-   // speak(q.tts, state.targetLang, () => setListening(false));
+    // speak(q.tts, state.targetLang, () => setListening(false));
   };
 
   const canProceed = q.options ? !!selected : q.section === 'writing' ? writing.trim().length > 0 : speakingText.trim().length > 0;
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
+      {/* Header section */}
       <div className="flex items-center justify-between">
-        <button onClick={goBack} disabled={idx === 0} className="flex items-center gap-1 text-sm font-bold text-ink-500 hover:text-ink-900 disabled:opacity-30 dark:text-ink-400 dark:hover:text-ink-100">
+        <button onClick={goBack} disabled={idx === 0} className="flex items-center gap-1 text-sm font-bold text-ink-500 hover:text-ink-900 disabled:opacity-50">
           <ArrowLeft size={18} className="rtl:rotate-180" /> {t('common.back')}
         </button>
         <div className="flex items-center gap-2">
           {SECTION_META.map((s, i) => (
-            <div key={s.key} className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold ${
-              sectionIdx === i ? 'bg-ink-900 text-white' : i < sectionIdx ? 'bg-forest-100 text-forest-700' : 'bg-ink-100 text-ink-400 dark:bg-ink-900/60 dark:text-ink-500'
-            }`}>
+            <div key={s.key} className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold ${sectionIdx === i ? 'bg-ink-900 text-white' : i < sectionIdx ? 'bg-forest-100 text-forest-700' : 'bg-ink-100 text-ink-400'}`}>
               <s.icon size={12} />
               <span className="hidden sm:inline">{t(s.key)}</span>
             </div>
@@ -173,101 +170,40 @@ export function CefrTest() {
         </div>
       </div>
 
+      {/* Progress and Question */}
       <div className="flex items-center gap-3">
-        <span className="shrink-0 text-sm font-bold text-ink-500 dark:text-ink-400">
-          {t('cefr.question', { n: idx + 1 })}
-        </span>
+        <span className="shrink-0 text-sm font-bold text-ink-500 dark:text-ink-400">{t('cefr.question', { n: idx + 1 })}</span>
         <div className="progress-track flex-1">
           <div className="progress-fill bg-gradient-to-r from-sky-400 to-sky-600" style={{ width: `${(idx / total) * 100}%` }} />
         </div>
       </div>
 
+      {/* Main content */}
       <div className="card p-6 dark:bg-ink-800 dark:border-ink-700">
         <h2 className="font-brand text-xl font-bold text-ink-900 dark:text-ink-100">{promptText}</h2>
 
+        {/* Listening section */}
         {q.section === 'listening' && (
-          <button
-            onClick={playListening}
-            disabled={listening}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-500 py-4 font-bold text-white hover:bg-sky-600 disabled:opacity-60"
-          >
+          <button onClick={playListening} disabled={listening} className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-500 py-4 font-bold text-white hover:bg-sky-600">
             <Volume2 size={22} className={listening ? 'animate-pulse' : ''} />
             {listening ? t('misc.listening') : t('cefr.play')}
           </button>
-      //  
-
-      //  {q.section === 'reading' && q.passage && (
-        //  <div className="mt-4 rounded-2xl bg-ink-50 p-4 dark:bg-ink-900/60">
-          //  <p className="text-xs font-bold uppercase tracking-wide text-ink-400 dark:text-ink-500">{t('cefr.passage')}</p>
-          //  <p className="mt-2 leading-relaxed text-ink-800 dark:text-ink-200">{q.passage}</p>
-          // <button onClick={() => speak(q.passage!, state.targetLang)} className="mt-2 flex items-center gap-1 text-sm font-bold text-sky-600 hover:text-sky-700 dark:text-sky-400">
-            //  <Volume2 size={16} /> {t('cefr.replay')}
-          //  </button>
-        //  </div>
-      //  
-
-        {q.options && (
-          <div className="mt-5 space-y-3">
-            {q.options.map((opt) => {
-              const isSel = selected === opt;
-              return (
-                <button
-                  key={opt}
-                  onClick={() => { /* chooseOption(opt); */ }}
-                  className={`flex w-full items-center justify-between rounded-2xl border-2 px-5 py-4 text-start font-bold text-ink-900 transition dark:text-ink-100 ${
-                    isSel ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/40' : 'border-ink-100 bg-white hover:border-sky-300 dark:border-ink-700 dark:bg-ink-800 dark:hover:border-sky-600'
-                  }`}
-                >
-                  <span className="text-lg">{opt}</span>
-                  {isSel && <Check size={20} className="text-sky-600" />}
-                </button>
-              );
-            })}
-          </div>
         )}
 
-        {q.section === 'writing' && (
-          <div className="mt-4">
-            <textarea
-              value={writing}
-              onChange={(e) => { setWriting(e.target.value); /* recordAnswer(e.target.value); */ }}
-              rows={5}
-              className="input resize-none"
-              placeholder={t('cefr.typeAnswer', { lang: lang.name })}
-            />
-            <p className="mt-1 text-xs text-ink-400 dark:text-ink-500">
-              {writing.trim().split(/\s+/).filter(Boolean).length} words
-            </p>
-          </div>
-        )}
-
-        {q.section === 'speaking' && (
-          <div className="mt-4 flex flex-col items-center gap-3">
-           // <button 
-           // onClick={startSpeak}
-           //   className="flex h-20 w-20 items-center justify-center rounded-full bg-coral-500 text-white shadow-pop hover:bg-coral-600 transition"
-            >
-              <Mic size={32} />
-            </button>
-            {speakingText ? (
-              <div className="w-full rounded-2xl bg-forest-50 p-4 dark:bg-forest-900/30">
-                <p className="text-xs font-bold uppercase text-forest-700 dark:text-forest-400">{t('misc.speaking')}</p>
-                <p className="mt-1 text-ink-800 dark:text-ink-200">{speakingText}</p>
-              </div>
-            ) : (
-              <p className="text-sm text-ink-400 dark:text-ink-500">{t('cefr.speakAnswer', { lang: lang.name })}</p>
-          // 
-          // !recognitionSupported && 
-            //  <p className="text-xs text-coral-500">{t('mic.unsupported')}</p>
-          //
-          </div>
-        )}
+        {/* Reading section - currently disabled */}
+        
+      {q.section === 'reading' && q.passage && (
+         <div className="mt-4 rounded-2xl bg-ink-50 p-4 dark:bg-ink-900/60">
+           <p className="text-xs font-bold uppercase tracking-wide text-ink-400 dark:text-ink-500">{t('cefr.passage')}</p>
+         </div>
+      )} 
+      
       </div>
-
+      
+      {/* Navigation button */}
       <button onClick={goNext} disabled={!canProceed} className="btn btn-primary w-full">
         {idx + 1 >= total ? t('cefr.submit') : t('common.next')}
         <ArrowRight size={16} className="rtl:rotate-180" />
       </button>
     </div>
-  );
-}
+    )}
